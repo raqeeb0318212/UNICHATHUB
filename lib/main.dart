@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+// --- Color Constants based on Design Sampling ---
+const Color _primaryTaupe = Color(0xFFB4AFAF);
+const Color _darkText = Color(0xFF333333);
+const Color _cardBackground = Color(0xFFEBEBEB); // Light grey for notification cards
+const Color _uniChatHubBlue = Color(0xFF6A5ACD); // A suitable purple/blue for UniChatHub dot
+
 void main() {
   runApp(const MyApp());
 }
@@ -7,116 +13,182 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Notification Screen',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        // Set the primary color for the AppBar and background elements
+        scaffoldBackgroundColor: _primaryTaupe,
+        colorScheme: ColorScheme.fromSeed(seedColor: _primaryTaupe),
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const NotificationScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class NotificationScreen extends StatelessWidget {
+  const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        // Matching the taupe background
+        backgroundColor: _primaryTaupe,
+        elevation: 0,
+        toolbarHeight: 50, // Slightly reduced height for visual match
+
+        // Title and action icons
+        title: const Text(
+          'Notification', // Updated title
+          style: TextStyle(
+            color: _darkText,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.menu, color: _darkText),
+          onPressed: () {
+            // Handle menu
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_none, color: _darkText),
+            onPressed: () {
+              // Handle notifications
+            },
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 8),
+              // --- Back Button Row ---
+              Row(
+                children: [
+                  const Icon(Icons.arrow_back_ios, size: 18, color: _darkText),
+                  const SizedBox(width: 4),
+                  GestureDetector(
+                    onTap: () {
+                      // Implement navigation back
+                    },
+                    child: const Text(
+                      'Back',
+                      style: TextStyle(
+                        color: _darkText,
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24), // Space between back button and first card
+
+              // --- Notification Cards ---
+              const NotificationCard(
+                title: 'UniChatHub',
+                messageHeader: 'Hi,Raqeeb!',
+                messageBody: 'Lorem ipsum dolor sit amet, consectetur adipiscing el',
+              ),
+              const SizedBox(height: 16), // Space between cards
+              const NotificationCard(
+                title: 'UniChatHub',
+                messageHeader: 'Hi,Raqeeb!',
+                messageBody: 'Lorem ipsum dolor sit amet, consectetur adipiscing el',
+              ),
+              // Add more cards as needed
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class NotificationCard extends StatelessWidget {
+  final String title;
+  final String messageHeader;
+  final String messageBody;
+
+  const NotificationCard({
+    super.key,
+    required this.title,
+    required this.messageHeader,
+    required this.messageBody,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: _cardBackground, // Light grey background
+        borderRadius: BorderRadius.circular(12), // Slightly rounded corners
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              // Purple/blue dot for UniChatHub
+              Container(
+                width: 10,
+                height: 10,
+                decoration: const BoxDecoration(
+                  color: _uniChatHubBlue,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: _darkText,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            messageHeader,
+            style: const TextStyle(
+              color: _darkText,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            messageBody,
+            style: TextStyle(
+              color: _darkText.withOpacity(0.7),
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
+            maxLines: 2, // Limit lines to match the design's height
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 }
