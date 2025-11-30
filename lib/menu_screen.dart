@@ -1,46 +1,53 @@
 import 'package:flutter/material.dart';
 
-// Custom color derived from the Figma design's background (light taupe/mauve)
+// IMPORTANT: Import your screens here
+import 'color_change_screen.dart';
+import 'about_app_screen.dart'; // Make sure to import the new screen
+
+// Custom color derived from the Figma design's background
 const Color _backgroundColor = Color(0xFFEBE3E3);
-// Dark text/icon color
 const Color _foregroundColor = Colors.black87;
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
 
-  // Helper widget to build each menu list item
+  // Updated Helper widget: Now accepts an onTap function
   Widget _buildMenuItem({
     required IconData icon,
     required String title,
     bool isColorful = false,
+    VoidCallback? onTap,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-      child: Row(
-        children: [
-          // Use a SizedBox to match the wide margin before the icon
-          const SizedBox(width: 16),
-          Icon(
-            icon,
-            color: _foregroundColor,
-            size: 24, // Matched size for visual fidelity
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                color: _foregroundColor,
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+        child: Row(
+          children: [
+            const SizedBox(width: 16),
+            Icon(
+              icon,
+              color: _foregroundColor,
+              size: 24,
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: _foregroundColor,
+                ),
               ),
             ),
-          ),
-          const Icon(
-            Icons.arrow_forward_ios,
-            color: _foregroundColor,
-            size: 16,
-          ),
-        ],
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: _foregroundColor,
+              size: 16,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -50,11 +57,8 @@ class MenuScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: _backgroundColor,
       appBar: AppBar(
-        // Set AppBar color to match the body background color
         backgroundColor: _backgroundColor,
-        // Remove the shadow/elevation
         elevation: 0,
-        // Custom leading icon (back arrow) - UPDATED BACK LOGIC HERE
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: _foregroundColor),
           onPressed: () {
@@ -69,9 +73,9 @@ class MenuScreen extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(top: 40.0, bottom: 60.0),
               child: Icon(
-                Icons.school, // Mortarboard icon
+                Icons.school,
                 color: Colors.white,
-                size: 100, // Large size to match design
+                size: 100,
               ),
             ),
 
@@ -79,9 +83,12 @@ class MenuScreen extends StatelessWidget {
             _buildMenuItem(
               icon: Icons.person_outline,
               title: 'Profile',
+              onTap: () {
+                // Navigate to Profile
+              },
             ),
             _buildMenuItem(
-              icon: Icons.border_color, // Used for 'Home Feed'
+              icon: Icons.border_color,
               title: 'Home Feed',
             ),
             _buildMenuItem(
@@ -96,27 +103,38 @@ class MenuScreen extends StatelessWidget {
               icon: Icons.menu_book_outlined,
               title: 'Events',
             ),
+
+            // --- UPDATED COLOURS ITEM ---
             _buildMenuItem(
-              icon: Icons.palette_outlined, // Used for 'Colours'
+              icon: Icons.palette_outlined,
               title: 'Colours',
               isColorful: true,
+              onTap: () {
+                // Navigate to ColorChangeScreen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ColorChangeScreen(),
+                  ),
+                );
+              },
             ),
+
             _buildMenuItem(
-              icon: Icons.contact_page_outlined, // Used for 'Contact'
+              icon: Icons.contact_page_outlined,
               title: 'Contact',
             ),
 
-            const SizedBox(height: 70), // Spacing before the button
+            const SizedBox(height: 70),
 
             // 3. Sign Out Button
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 40),
               width: double.infinity,
-              height: 55, // Fixed height to match design
+              height: 55,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(30), // Highly rounded corners
-                // Optional: subtle shadow to make it pop like in the design
+                borderRadius: BorderRadius.circular(30),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
@@ -158,12 +176,18 @@ class MenuScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 40), // Spacing after the button
+            const SizedBox(height: 40),
 
             // 4. ABOUT APP Text
             TextButton(
               onPressed: () {
-                // Handle navigation to About App screen
+                // --- NAVIGATION LOGIC ADDED HERE ---
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AboutAppScreen(),
+                  ),
+                );
               },
               child: const Text(
                 'ABOUT APP',
@@ -171,15 +195,12 @@ class MenuScreen extends StatelessWidget {
                   fontSize: 16,
                   color: _foregroundColor,
                   fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline, // Underlined
+                  decoration: TextDecoration.underline,
                   decorationColor: _foregroundColor,
                   decorationThickness: 1.5,
                 ),
               ),
             ),
-
-            const SizedBox(height: 40),
-            // Padding for the bottom safe area/indicator
             const SizedBox(height: 20),
           ],
         ),

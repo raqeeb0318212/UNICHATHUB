@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'menu_screen.dart';
 import 'notification_screen.dart';
-import 'create_post_screen.dart'; // Import the new screen here
+import 'create_post_screen.dart';
+import 'user_details_screen.dart'; // Import the user details screen
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -125,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      // --- Floating Action Button Updated ---
+      // --- Floating Action Button ---
       floatingActionButton: Container(
         width: 64,
         height: 64,
@@ -146,7 +147,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: FloatingActionButton(
           onPressed: () {
-            // Navigate to Create Post Screen
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -177,6 +177,15 @@ class PostCard extends StatelessWidget {
     required this.onFollowToggle,
   }) : super(key: key);
 
+  void _navigateToUserDetails(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const UserDetailsScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -189,31 +198,42 @@ class PostCard extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: Row(
               children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFE0E0E0),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.person,
-                    color: Colors.black,
-                    size: 28,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    post.username,
-                    style: const TextStyle(
+                // --- Profile Picture (Clickable) ---
+                GestureDetector(
+                  onTap: () => _navigateToUserDetails(context),
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFE0E0E0),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.person,
                       color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.3,
+                      size: 28,
                     ),
                   ),
                 ),
+                const SizedBox(width: 12),
+
+                // --- Username (Clickable) ---
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => _navigateToUserDetails(context),
+                    child: Text(
+                      post.username,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // --- Follow Button ---
                 GestureDetector(
                   onTap: onFollowToggle,
                   child: Container(

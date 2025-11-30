@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// IMPORTANT: Import your MenuScreen here
+import 'menu_screen.dart';
+
 // --- Color Constants based on Design Sampling ---
 const Color _primaryTaupe = Color(0xFFB4AFAF);
 const Color _darkText = Color(0xFF333333);
@@ -17,7 +20,6 @@ class NotificationScreen extends StatelessWidget {
         elevation: 0,
         toolbarHeight: 50,
 
-        // This prevents the automatic back arrow so we can use your custom design
         automaticallyImplyLeading: false,
 
         title: const Text(
@@ -28,17 +30,21 @@ class NotificationScreen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        // --- LOGIC: Menu Icon navigates to MenuScreen ---
         leading: IconButton(
           icon: const Icon(Icons.menu, color: _darkText),
           onPressed: () {
-            // Handle menu if needed, or leave empty
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MenuScreen()),
+            );
           },
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_none, color: _darkText),
             onPressed: () {
-              // Already on notification screen
+              // Already on notification screen, do nothing
             },
           ),
         ],
@@ -52,11 +58,16 @@ class NotificationScreen extends StatelessWidget {
               const SizedBox(height: 8),
 
               // --- Back Button Row ---
-              // Wrapped in GestureDetector for navigation
+              // --- LOGIC: Navigate Back to Menu Screen ---
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context); // Go back to Home
+                  // Explicitly push MenuScreen as requested
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MenuScreen()),
+                  );
                 },
+                behavior: HitTestBehavior.opaque,
                 child: Row(
                   children: [
                     const Icon(Icons.arrow_back_ios, size: 18, color: _darkText),
