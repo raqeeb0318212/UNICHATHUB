@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'menu_screen.dart';
 import 'notification_screen.dart';
+import 'edit_profile_screen.dart'; // Import the Edit Profile Screen
 
 class UserDetailsScreen extends StatefulWidget {
   const UserDetailsScreen({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // --- MENU ICON (Navigates to MenuScreen) ---
+                    // --- MENU ICON ---
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -60,7 +61,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ),
                     ),
 
-                    // User Details title
+                    // Title
                     const Text(
                       'User Details',
                       style: TextStyle(
@@ -71,7 +72,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ),
                     ),
 
-                    // --- NOTIFICATION ICON (Navigates to NotificationScreen) ---
+                    // --- NOTIFICATION ICON ---
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -92,14 +93,13 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 ),
               ),
 
-              // --- Back button with Navigation ---
+              // --- Back button ---
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Logic: Go back to previous screen (MenuScreen)
                         Navigator.pop(context);
                       },
                       child: Row(
@@ -130,18 +130,29 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Row(
                   children: [
-                    // Profile picture
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE0E0E0),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.black,
-                        size: 56,
+                    // --- PROFILE PICTURE CLICKABLE ---
+                    GestureDetector(
+                      onTap: () {
+                        // Navigate to Edit Profile Screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditProfileScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFE0E0E0),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.black,
+                          size: 56,
+                        ),
                       ),
                     ),
 
@@ -229,20 +240,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                 ),
                               );
                             },
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Container(
-                                color: Colors.grey[300],
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                ),
-                              );
-                            },
                           ),
                         ),
                       );
@@ -251,7 +248,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 ),
               ),
 
-              // Bottom indicator
+              // Bottom Indicator
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(

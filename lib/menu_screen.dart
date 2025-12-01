@@ -8,7 +8,8 @@ import 'user_details_screen.dart';
 import 'home_screen.dart';
 import 'contact_screen.dart';
 import 'jobs_feed_screen.dart';
-import 'event_calendar_screen.dart'; // <--- ADDED THIS IMPORT
+import 'event_calendar_screen.dart';
+import 'chat_list_screen.dart'; // <--- ADDED THIS IMPORT
 
 // Custom colors derived from the Figma design
 const Color _backgroundColor = Color(0xFFEBE3E3);
@@ -264,12 +265,19 @@ class MenuScreen extends StatelessWidget {
               },
             ),
 
+            // --- UPDATED CHAT BUTTON ---
             _buildMenuItem(
               icon: Icons.chat_bubble_outline,
               title: 'Chat',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ChatListScreen()),
+                );
+              },
             ),
+            // ---------------------------
 
-            // --- UPDATED EVENTS BUTTON ---
             _buildMenuItem(
               icon: Icons.menu_book_outlined,
               title: 'Events',
@@ -280,7 +288,6 @@ class MenuScreen extends StatelessWidget {
                 );
               },
             ),
-            // -----------------------------
 
             _buildMenuItem(
               icon: Icons.palette_outlined,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-// IMPORTANT: Import your MenuScreen here if you want the left menu icon to work
-import 'menu_screen.dart';
+import 'menu_screen.dart'; // Ensure this matches your filename
 
 // --- Color Constants based on Design Sampling ---
 const Color _primaryTaupe = Color(0xFFB4AFAF);
@@ -15,13 +13,12 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // Ensure default background is clean
       appBar: AppBar(
         backgroundColor: _primaryTaupe,
         elevation: 0,
         toolbarHeight: 50,
-
-        automaticallyImplyLeading: false,
-
+        automaticallyImplyLeading: false, // Hide default back button
         title: const Text(
           'Notification',
           style: TextStyle(
@@ -58,17 +55,17 @@ class NotificationScreen extends StatelessWidget {
               const SizedBox(height: 8),
 
               // --- Back Button Row ---
-              // --- LOGIC: Navigate Back to Upper Screen (Jobs Feed) ---
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context); // <--- CHANGED TO POP
+                  // Logic: Go back to previous screen (Edit Profile)
+                  Navigator.pop(context);
                 },
                 behavior: HitTestBehavior.opaque,
                 child: Row(
-                  children: [
-                    const Icon(Icons.arrow_back_ios, size: 18, color: _darkText),
-                    const SizedBox(width: 4),
-                    const Text(
+                  children: const [
+                    Icon(Icons.arrow_back_ios, size: 18, color: _darkText),
+                    SizedBox(width: 4),
+                    Text(
                       'Back',
                       style: TextStyle(
                         color: _darkText,
