@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// IMPORTANT: Import your MenuScreen here
+// IMPORTANT: Import your MenuScreen here if you want the left menu icon to work
 import 'menu_screen.dart';
 
 // --- Color Constants based on Design Sampling ---
@@ -58,14 +58,10 @@ class NotificationScreen extends StatelessWidget {
               const SizedBox(height: 8),
 
               // --- Back Button Row ---
-              // --- LOGIC: Navigate Back to Menu Screen ---
+              // --- LOGIC: Navigate Back to Upper Screen (Jobs Feed) ---
               GestureDetector(
                 onTap: () {
-                  // Explicitly push MenuScreen as requested
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MenuScreen()),
-                  );
+                  Navigator.pop(context); // <--- CHANGED TO POP
                 },
                 behavior: HitTestBehavior.opaque,
                 child: Row(

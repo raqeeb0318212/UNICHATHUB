@@ -6,7 +6,9 @@ import 'about_app_screen.dart';
 import 'login_screen.dart';
 import 'user_details_screen.dart';
 import 'home_screen.dart';
-import 'contact_screen.dart'; // <--- ADDED THIS IMPORT
+import 'contact_screen.dart';
+import 'jobs_feed_screen.dart';
+import 'event_calendar_screen.dart'; // <--- ADDED THIS IMPORT
 
 // Custom colors derived from the Figma design
 const Color _backgroundColor = Color(0xFFEBE3E3);
@@ -254,15 +256,32 @@ class MenuScreen extends StatelessWidget {
             _buildMenuItem(
               icon: Icons.work_outline,
               title: 'Jobs',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const JobsFeedScreen()),
+                );
+              },
             ),
+
             _buildMenuItem(
               icon: Icons.chat_bubble_outline,
               title: 'Chat',
             ),
+
+            // --- UPDATED EVENTS BUTTON ---
             _buildMenuItem(
               icon: Icons.menu_book_outlined,
               title: 'Events',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EventCalendarScreen()),
+                );
+              },
             ),
+            // -----------------------------
+
             _buildMenuItem(
               icon: Icons.palette_outlined,
               title: 'Colours',
@@ -276,8 +295,6 @@ class MenuScreen extends StatelessWidget {
                 );
               },
             ),
-
-            // --- UPDATED CONTACT BUTTON ---
             _buildMenuItem(
               icon: Icons.contact_page_outlined,
               title: 'Contact',
@@ -290,7 +307,6 @@ class MenuScreen extends StatelessWidget {
                 );
               },
             ),
-            // ------------------------------
 
             const SizedBox(height: 70),
 
